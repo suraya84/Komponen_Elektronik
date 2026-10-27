@@ -1,0 +1,794 @@
+<!DOCTYPE html>
+<html lang="ms">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+  <title>Rekod Pengambilan Komponen Elektronik — JKE POLISAS</title>
+  <style>
+    /* ═══ WARNA KORPORAT POLITEKNIK MALAYSIA ═══
+       Biru Royal  : #003087  (utama)
+       Biru Gelap  : #001f5c  (dark)
+       Emas/Gold   : #c8a951  (aksen)
+       Emas Terang : #f5e6b2  (light gold)
+       Abu-abu     : #f4f6f9  (background)
+    ═══════════════════════════════════════════ */
+    :root {
+      --corp:       #003087;
+      --corp-dk:    #001f5c;
+      --corp-lt:    #dce8f7;
+      --gold:       #c8a951;
+      --gold-lt:    #f5e6b2;
+      --gold-dk:    #a08030;
+      --green:      #15803d;
+      --green-lt:   #dcfce7;
+      --red:        #dc2626;
+      --red-lt:     #fee2e2;
+      --amber:      #b45309;
+      --amber-lt:   #fef3c7;
+      --gray:       #6b7280;
+      --gray-lt:    #f4f6f9;
+      --white:      #ffffff;
+      --text:       #111827;
+      --muted:      #6b7280;
+      --border:     #d1d9e6;
+      --shadow:     0 2px 10px rgba(0,48,135,0.10);
+      --radius:     12px;
+      --font:       -apple-system,"Segoe UI",system-ui,sans-serif;
+    }
+    *,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+    body{font-family:var(--font);background:var(--gray-lt);color:var(--text);min-height:100vh;}
+
+    /* ─── HEADER ─── */
+    header{
+      background:linear-gradient(135deg,var(--corp-dk) 0%,var(--corp) 70%,#1a4fa0 100%);
+      color:var(--white);padding:0 32px;
+      display:flex;align-items:stretch;gap:0;
+      box-shadow:0 3px 14px rgba(0,31,92,.35);
+      position:relative;overflow:hidden;
+    }
+    header::after{
+      content:'';position:absolute;right:0;top:0;bottom:0;width:6px;
+      background:linear-gradient(180deg,var(--gold),var(--gold-dk));
+    }
+    .hdr-stripe{width:5px;background:linear-gradient(180deg,var(--gold),var(--gold-dk));flex-shrink:0;margin-right:18px;}
+    .hdr-logo{width:56px;height:56px;background:rgba(255,255,255,.12);border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:1.6rem;flex-shrink:0;margin:16px 16px 16px 0;border:1px solid rgba(200,169,81,.4);}
+    .hdr-text{padding:16px 0;flex:1;}
+    .hdr-text .inst{font-size:.72rem;font-weight:600;opacity:.7;letter-spacing:.8px;text-transform:uppercase;}
+    .hdr-text h1{font-size:1.2rem;font-weight:800;margin-top:3px;letter-spacing:.2px;}
+    .hdr-text p{font-size:.78rem;opacity:.75;margin-top:3px;}
+    .hdr-date{margin-left:auto;font-size:.78rem;opacity:.8;text-align:right;padding:16px 20px 16px 0;display:flex;flex-direction:column;justify-content:center;gap:4px;}
+    .hdr-badge{background:var(--gold);color:var(--corp-dk);font-size:.68rem;font-weight:800;padding:2px 10px;border-radius:99px;text-transform:uppercase;letter-spacing:.5px;display:inline-block;margin-bottom:4px;}
+
+    /* ─── TAB BAR ─── */
+    .tab-bar{background:var(--corp-dk);display:flex;padding:0 24px;position:sticky;top:0;z-index:100;box-shadow:0 2px 8px rgba(0,0,0,.25);overflow-x:auto;}
+    .tab-btn{padding:12px 16px;font-size:.82rem;font-weight:600;border:none;background:none;cursor:pointer;color:rgba(255,255,255,.6);border-bottom:3px solid transparent;margin-bottom:0;transition:color .2s,border-color .2s;white-space:nowrap;display:flex;align-items:center;gap:7px;}
+    .tab-btn:hover{color:rgba(255,255,255,.9);}
+    .tab-btn.active{color:var(--white);border-bottom-color:var(--gold);}
+    .tbadge{font-size:.66rem;padding:1px 7px;border-radius:99px;font-weight:700;background:rgba(255,255,255,.15);color:var(--white);}
+    .tab-btn.active .tbadge{background:var(--gold);color:var(--corp-dk);}
+
+    /* ─── PANELS ─── */
+    .panel{display:none;max-width:1380px;margin:24px auto;padding:0 22px 52px;}
+    .panel.active{display:block;}
+
+    /* ─── SIDEBAR + CONTENT LAYOUT ─── */
+    .inv-layout{display:grid;grid-template-columns:190px 1fr;gap:20px;margin-top:18px;align-items:start;}
+    @media(max-width:860px){.inv-layout{grid-template-columns:1fr;}}
+
+    .sidebar{
+      background:var(--white);border-radius:var(--radius);
+      box-shadow:var(--shadow);border:1px solid var(--border);
+      overflow:hidden;position:sticky;top:52px;
+    }
+    .sidebar-head{
+      background:var(--corp-dk);color:var(--white);
+      padding:11px 14px;border-bottom:3px solid var(--gold);
+    }
+    .sidebar-head h3{font-size:.76rem;font-weight:800;text-transform:uppercase;letter-spacing:.5px;}
+
+    .sidebar-kat{
+      display:flex;align-items:center;gap:9px;
+      padding:10px 14px;cursor:pointer;
+      border-bottom:1px solid var(--border);
+      border-left:3px solid transparent;
+      transition:background .15s,border-left-color .15s;
+    }
+    .sidebar-kat:last-child{border-bottom:none;}
+    .sidebar-kat:hover{background:var(--corp-lt);}
+    .sidebar-kat.active{
+      background:var(--corp-lt);
+      border-left-color:var(--gold);
+    }
+    .sk-icon{font-size:.95rem;flex-shrink:0;width:20px;text-align:center;}
+    .sk-body{flex:1;min-width:0;}
+    .sk-name{font-size:.79rem;font-weight:700;color:var(--corp-dk);}
+    .sk-count{font-size:.67rem;color:var(--muted);margin-top:1px;}
+    .sk-badge{font-size:.62rem;font-weight:700;padding:1px 7px;border-radius:99px;flex-shrink:0;}
+    .sk-badge.ok{background:var(--green-lt);color:var(--green);}
+    .sk-badge.low{background:var(--amber-lt);color:var(--amber);}
+    .sk-badge.out{background:var(--red-lt);color:var(--red);}
+
+    /* ─── STATS ─── */
+    .stats-row{display:grid;grid-template-columns:repeat(auto-fill,minmax(165px,1fr));gap:13px;margin-bottom:22px;}
+    .scard{background:var(--white);border-radius:var(--radius);box-shadow:var(--shadow);padding:15px 17px;border:1px solid var(--border);border-left:4px solid var(--corp);}
+    .scard .sl{font-size:.7rem;font-weight:700;text-transform:uppercase;letter-spacing:.5px;color:var(--muted);}
+    .scard .sv{font-size:1.7rem;font-weight:800;color:var(--corp);line-height:1.1;margin-top:3px;}
+    .scard .ss{font-size:.71rem;color:var(--muted);margin-top:2px;}
+
+    /* ─── CARD ─── */
+    .card{background:var(--white);border-radius:var(--radius);box-shadow:var(--shadow);padding:20px 22px;border:1px solid var(--border);margin-bottom:20px;}
+    .chead{display:flex;align-items:center;gap:10px;margin-bottom:16px;padding-bottom:13px;border-bottom:2px solid var(--corp-lt);flex-wrap:wrap;}
+    .cicon{width:34px;height:34px;border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:.95rem;flex-shrink:0;}
+    .ctitle{font-size:.77rem;font-weight:800;text-transform:uppercase;letter-spacing:.5px;color:var(--corp-dk);}
+    .caction{font-size:.75rem;font-weight:700;color:var(--corp);background:var(--corp-lt);border:1px solid var(--corp);padding:5px 12px;border-radius:6px;cursor:pointer;}
+    .caction:hover{background:var(--corp);color:var(--white);}
+    .caction.gold{color:var(--gold-dk);background:var(--gold-lt);border-color:var(--gold);}
+    .caction.gold:hover{background:var(--gold);color:var(--white);}
+    .ml-auto{margin-left:auto;display:flex;gap:8px;flex-wrap:wrap;}
+
+    /* ─── SECTION LABEL ─── */
+    .slabel{font-size:.7rem;font-weight:800;text-transform:uppercase;letter-spacing:1px;color:var(--corp);margin:20px 0 10px;display:flex;align-items:center;gap:10px;}
+    .slabel::before{content:'';width:4px;height:14px;background:var(--gold);border-radius:2px;flex-shrink:0;}
+    .slabel::after{content:'';flex:1;height:1px;background:var(--border);}
+
+    /* ─── TWO COL ─── */
+    .two-col{display:grid;grid-template-columns:1fr 1fr;gap:20px;}
+    @media(max-width:800px){.two-col{grid-template-columns:1fr;}}
+
+    /* ─── FORM ─── */
+    .fgrid{display:grid;grid-template-columns:1fr 1fr;gap:10px;}
+    @media(max-width:540px){.fgrid{grid-template-columns:1fr;}}
+    .fg{display:flex;flex-direction:column;gap:3px;}
+    .fg.s2{grid-column:1/-1;}
+    .fg label{font-size:.74rem;font-weight:700;color:var(--corp-dk);}
+    .fg input,.fg select,.fg textarea{padding:8px 10px;font-size:.84rem;border:1.5px solid var(--border);border-radius:7px;outline:none;font-family:var(--font);transition:border-color .2s;background:var(--white);}
+    .fg input:focus,.fg select:focus,.fg textarea:focus{border-color:var(--corp);box-shadow:0 0 0 3px rgba(0,48,135,.08);}
+    .fg textarea{resize:vertical;min-height:52px;}
+    .fsec{grid-column:1/-1;font-size:.72rem;font-weight:800;text-transform:uppercase;letter-spacing:.7px;color:var(--corp-dk);background:var(--corp-lt);padding:5px 11px;border-radius:5px;margin-top:4px;border-left:3px solid var(--gold);}
+    .factions{display:flex;gap:10px;justify-content:flex-end;margin-top:13px;}
+    .btn{padding:8px 18px;border-radius:8px;font-size:.82rem;font-weight:700;border:none;cursor:pointer;font-family:var(--font);}
+    .btn-p{background:var(--corp);color:var(--white);}
+    .btn-p:hover{background:var(--corp-dk);}
+    .btn-gold{background:var(--gold);color:var(--corp-dk);}
+    .btn-gold:hover{background:var(--gold-dk);color:var(--white);}
+    .btn-g{background:var(--gray-lt);color:var(--gray);border:1px solid var(--border);}
+    .btn-g:hover{background:var(--border);}
+    .btn-sm{padding:4px 10px;font-size:.72rem;}
+
+    /* ─── TABLE ─── */
+    .twrap{overflow-x:auto;}
+    table{width:100%;border-collapse:collapse;font-size:.8rem;}
+    thead th{background:var(--corp-dk);color:var(--white);padding:9px 10px;text-align:left;font-size:.7rem;font-weight:700;letter-spacing:.3px;white-space:nowrap;}
+    thead th:first-child{border-radius:6px 0 0 0;}
+    thead th:last-child{border-radius:0 6px 0 0;}
+    tbody td{padding:8px 10px;border-bottom:1px solid var(--border);vertical-align:middle;}
+    tbody tr:last-child td{border-bottom:none;}
+    tbody tr:hover td{background:#f0f4ff;}
+
+    /* ─── BADGES ─── */
+    .sbg{display:inline-flex;align-items:center;gap:4px;padding:2px 9px;border-radius:99px;font-size:.71rem;font-weight:600;}
+    .sbg::before{content:'';width:5px;height:5px;border-radius:50%;background:currentColor;}
+    .sbg.keluar{background:#dbeafe;color:#1d4ed8;}
+    .sbg.pulang{background:var(--green-lt);color:var(--green);}
+    .sbg.rosak{background:var(--red-lt);color:var(--red);}
+
+    .rbg{display:inline-block;padding:2px 9px;border-radius:99px;font-size:.7rem;font-weight:700;border:1.5px solid;}
+    .rbg.pelajar{color:var(--corp);border-color:var(--corp);background:var(--corp-lt);}
+    .rbg.penyelia{color:#7c3aed;border-color:#7c3aed;background:#f5f3ff;}
+    .rbg.pensyarah{color:var(--gold-dk);border-color:var(--gold);background:var(--gold-lt);}
+
+    /* ─── STOK BAR ─── */
+    .stok-bar{height:6px;border-radius:99px;background:var(--border);overflow:hidden;width:80px;display:inline-block;vertical-align:middle;margin-right:5px;}
+    .stok-fill{height:100%;border-radius:99px;}
+    .stok-ok{color:var(--green);font-weight:700;}
+    .stok-low{color:var(--amber);font-weight:700;}
+    .stok-out{color:var(--red);font-weight:700;}
+
+    /* ─── SEARCH ─── */
+    .search-wrap{display:flex;gap:10px;margin-bottom:14px;flex-wrap:wrap;}
+    .search-wrap input{flex:1;min-width:180px;padding:8px 12px;border:1.5px solid var(--border);border-radius:8px;font-size:.83rem;font-family:var(--font);outline:none;}
+    .search-wrap input:focus{border-color:var(--corp);}
+    .search-wrap select{padding:8px 10px;border:1.5px solid var(--border);border-radius:8px;font-size:.81rem;font-family:var(--font);outline:none;}
+
+    /* ─── KOMPONEN CARDS (inventori) ─── */
+    .komp-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:12px;}
+    .komp-card{background:var(--white);border:1px solid var(--border);border-radius:10px;padding:13px 15px;box-shadow:0 1px 4px rgba(0,48,135,.06);border-top:3px solid var(--corp);}
+    .komp-card.low{border-top-color:var(--amber);}
+    .komp-card.out{border-top-color:var(--red);opacity:.7;}
+    .komp-name{font-size:.84rem;font-weight:700;margin-bottom:8px;line-height:1.3;color:var(--corp-dk);}
+    .komp-row{display:flex;justify-content:space-between;font-size:.75rem;margin-bottom:4px;}
+    .komp-row span:first-child{color:var(--muted);}
+
+    /* ─── MODAL ─── */
+    .overlay{display:none;position:fixed;inset:0;background:rgba(0,31,92,.5);z-index:1000;align-items:center;justify-content:center;padding:16px;}
+    .overlay.open{display:flex;}
+    .modal{background:var(--white);border-radius:14px;box-shadow:0 8px 32px rgba(0,0,0,.22);width:100%;max-width:700px;max-height:92vh;overflow-y:auto;border-top:4px solid var(--gold);}
+    .mhead{display:flex;align-items:center;gap:11px;padding:15px 20px;border-bottom:1px solid var(--border);position:sticky;top:0;background:var(--white);z-index:1;}
+    .mhead h2{font-size:.95rem;font-weight:800;flex:1;color:var(--corp-dk);}
+    .mclose{width:28px;height:28px;border-radius:6px;border:none;background:var(--gray-lt);cursor:pointer;display:flex;align-items:center;justify-content:center;}
+    .mbody{padding:20px;}
+    .mfoot{padding:12px 20px;border-top:1px solid var(--border);display:flex;gap:10px;justify-content:flex-end;background:var(--gray-lt);border-radius:0 0 14px 14px;}
+
+    /* ─── BORANG PRINT ─── */
+    .bsec{border:1px solid var(--border);border-radius:8px;padding:15px;margin-bottom:13px;}
+    .bsec-title{font-size:.75rem;font-weight:800;text-transform:uppercase;letter-spacing:.5px;color:var(--corp);margin-bottom:10px;padding-bottom:6px;border-bottom:1px solid var(--corp-lt);}
+    .bfield{display:flex;gap:0;margin-bottom:8px;align-items:flex-start;}
+    .blbl{font-size:.78rem;font-weight:700;min-width:160px;padding-top:2px;flex-shrink:0;color:var(--corp-dk);}
+    .bval{flex:1;border-bottom:1px solid #ccc;min-height:20px;padding:0 5px;font-size:.83rem;}
+    .sig-row{display:grid;grid-template-columns:1fr 1fr 1fr;gap:13px;margin-top:10px;}
+    .sig-box{border:1px solid var(--border);border-radius:6px;padding:10px 12px;background:var(--gray-lt);}
+    .sig-box .st{font-size:.71rem;font-weight:800;color:var(--corp);margin-bottom:5px;text-transform:uppercase;}
+    .sig-box .ss2{height:32px;border-bottom:1px dotted #aaa;margin-bottom:5px;}
+    .sig-box .si{font-size:.71rem;color:var(--muted);}
+
+    /* ─── TOAST ─── */
+    #toast{position:fixed;bottom:22px;right:22px;z-index:9999;background:var(--corp-dk);color:var(--white);padding:11px 18px;border-radius:8px;font-size:.84rem;font-weight:600;box-shadow:0 4px 16px rgba(0,0,0,.25);opacity:0;transform:translateY(10px);transition:all .3s;pointer-events:none;border-left:4px solid var(--gold);}
+    #toast.show{opacity:1;transform:translateY(0);}
+
+    .empty{text-align:center;padding:28px;color:var(--muted);font-size:.85rem;}
+    .empty .ei{font-size:1.8rem;margin-bottom:7px;}
+
+    @media print{
+      .tab-bar,.subtab-bar,.factions,.caction,.btn,#toast,.search-wrap,.fgrid,.fsec,.slabel{display:none!important;}
+      .panel,.subpanel{display:block!important;}
+      body{background:white;}
+    }
+  </style>
+</head>
+<body>
+
+<!-- ═══ HEADER ═══ -->
+<header>
+  <div class="hdr-stripe"></div>
+  <div class="hdr-logo">🔌</div>
+  <div class="hdr-text">
+    <div class="inst">Politeknik Sultan Haji Ahmad Shah (POLISAS)</div>
+    <h1>REKOD PENGAMBILAN KOMPONEN ELEKTRONIK</h1>
+    <p>Bilik Persediaan · Jabatan Kejuruteraan Elektrik</p>
+  </div>
+  <div class="hdr-date">
+    <span class="hdr-badge">JKE POLISAS</span>
+    <span id="live-date"></span>
+  </div>
+</header>
+
+<!-- ═══ TAB BAR UTAMA ═══ -->
+<nav class="tab-bar">
+  <button class="tab-btn active" onclick="switchTab('inventori',this)">📦 Inventori Stok <span class="tbadge" id="badge-inventori">0 item</span></button>
+  <button class="tab-btn" onclick="switchTab('pelajar',this)">🎓 Pelajar Projek <span class="tbadge" id="badge-pelajar">0 rekod</span></button>
+  <button class="tab-btn" onclick="switchTab('penyelia',this)">👨‍🏫 Penyelia Projek <span class="tbadge" id="badge-penyelia">0 rekod</span></button>
+  <button class="tab-btn" onclick="switchTab('pensyarah',this)">📚 Pensyarah Kursus <span class="tbadge" id="badge-pensyarah">0 rekod</span></button>
+</nav>
+
+<!-- ═══════════════════════════════════════
+     PANEL: INVENTORI
+═══════════════════════════════════════ -->
+<section class="panel active" id="panel-inventori">
+  <div class="stats-row" id="stats-inventori"></div>
+
+  <div class="inv-layout">
+    <!-- LEFT SIDEBAR — navigasi kategori -->
+    <aside class="sidebar" id="sidebar-inventori"></aside>
+
+    <!-- MAIN CONTENT — jadual komponen -->
+    <div id="komp-content"></div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════
+     PANELS REKOD (dibina oleh JS)
+═══════════════════════════════════════ -->
+<div id="panels-rekod"></div>
+
+<!-- MODAL -->
+<div class="overlay" id="overlay" onclick="if(event.target===this)closeModal()">
+  <div class="modal">
+    <div class="mhead">
+      <span style="font-size:1.1rem" id="m-icon">📄</span>
+      <h2 id="m-title">Borang Pengambilan Komponen</h2>
+      <button class="mclose" onclick="closeModal()">✕</button>
+    </div>
+    <div class="mbody" id="m-body"></div>
+    <div class="mfoot">
+      <button class="btn btn-g" onclick="closeModal()">Tutup</button>
+      <button class="btn btn-p" onclick="window.print()">🖨️ Cetak Borang</button>
+    </div>
+  </div>
+</div>
+
+<div id="toast"></div>
+
+<script>
+/* ════════════════════════════════════════
+   DATA KOMPONEN
+════════════════════════════════════════ */
+const KOMPONEN = [
+  // RESISTOR
+  {id:1,  nama:"RESISTOR 150Ω",                       kat:"resistor",  stok_asal:100, stok:100},
+  {id:2,  nama:"RESISTOR 430Ω",                       kat:"resistor",  stok_asal:300, stok:300},
+  {id:3,  nama:"RESISTOR 680Ω",                       kat:"resistor",  stok_asal:200, stok:200},
+  {id:4,  nama:"RESISTOR 820Ω",                       kat:"resistor",  stok_asal:100, stok:100},
+  {id:5,  nama:"RESISTOR 860Ω",                       kat:"resistor",  stok_asal:200, stok:200},
+  {id:6,  nama:"RESISTOR 1 kΩ",                       kat:"resistor",  stok_asal:300, stok:300},
+  {id:7,  nama:"RESISTOR 1.1 kΩ",                     kat:"resistor",  stok_asal:100, stok:100},
+  {id:8,  nama:"RESISTOR 2 kΩ",                       kat:"resistor",  stok_asal:300, stok:300},
+  {id:9,  nama:"RESISTOR 2.2 kΩ",                     kat:"resistor",  stok_asal:500, stok:500},
+  {id:10, nama:"RESISTOR 3.3 kΩ",                     kat:"resistor",  stok_asal:300, stok:300},
+  {id:11, nama:"RESISTOR 10 kΩ",                      kat:"resistor",  stok_asal:500, stok:500},
+  {id:12, nama:"RESISTOR 12 kΩ",                      kat:"resistor",  stok_asal:300, stok:300},
+  {id:13, nama:"RESISTOR 20 kΩ",                      kat:"resistor",  stok_asal:500, stok:500},
+  {id:14, nama:"RESISTOR 47 kΩ",                      kat:"resistor",  stok_asal:300, stok:300},
+  {id:15, nama:"RESISTOR 100 kΩ",                     kat:"resistor",  stok_asal:400, stok:400},
+  {id:16, nama:"RESISTOR 270 kΩ",                     kat:"resistor",  stok_asal:100, stok:100},
+  {id:17, nama:"RESISTOR 820 kΩ",                     kat:"resistor",  stok_asal:100, stok:100},
+  {id:18, nama:"RESISTOR 1 MΩ",                       kat:"resistor",  stok_asal:100, stok:100},
+  // CAPACITOR
+  {id:19, nama:"CAPACITOR Ceramic 10 nF (1/2W)",      kat:"capacitor", stok_asal:200, stok:200},
+  {id:20, nama:"CAPACITOR Ceramic 0.01 µF @ 103",     kat:"capacitor", stok_asal:200, stok:200},
+  {id:21, nama:"CAPACITOR Ceramic 0.1 µF @ 104",      kat:"capacitor", stok_asal:200, stok:200},
+  {id:22, nama:"CAPACITOR Electrolytic 1 µF (50V)",   kat:"capacitor", stok_asal:100, stok:100},
+  {id:23, nama:"CAPACITOR Electrolytic 100 µF (25V)", kat:"capacitor", stok_asal:100, stok:100},
+  {id:24, nama:"CAPACITOR Electrolytic 100 µF (50V)", kat:"capacitor", stok_asal:100, stok:100},
+  {id:25, nama:"CAPACITOR Electrolytic 220 µF (50V)", kat:"capacitor", stok_asal:400, stok:400},
+  // TRANSISTOR
+  {id:26, nama:"TRANSISTOR 2N 2222",                  kat:"transistor",stok_asal:200, stok:200},
+  {id:27, nama:"TRANSISTOR BC 107",                   kat:"transistor",stok_asal:200, stok:200},
+  {id:28, nama:"TRANSISTOR BC 108",                   kat:"transistor",stok_asal:200, stok:200},
+  // DIODE
+  {id:29, nama:"DIODE 957 ZENER 6.8V",               kat:"diode",     stok_asal:200, stok:200},
+  {id:30, nama:"DIODE IN 4007",                       kat:"diode",     stok_asal:250, stok:250},
+  // FIUS
+  {id:31, nama:"FIUS 5A (20mm)",                      kat:"fius",      stok_asal:50,  stok:50},
+  {id:32, nama:"FIUS 13A (30mm)",                     kat:"fius",      stok_asal:50,  stok:50},
+  // IC
+  {id:33, nama:"IC 555 Timer",                        kat:"ic",        stok_asal:50,  stok:50},
+  {id:34, nama:"IC 741 Op-Amp",                       kat:"ic",        stok_asal:50,  stok:50},
+  {id:35, nama:"IC 7805 Voltage Regulator",           kat:"ic",        stok_asal:30,  stok:30},
+  // LAIN-LAIN
+  {id:36, nama:"LED Merah 5mm",                       kat:"lain",      stok_asal:200, stok:200},
+  {id:37, nama:"LED Hijau 5mm",                       kat:"lain",      stok_asal:200, stok:200},
+  {id:38, nama:"LED Kuning 5mm",                      kat:"lain",      stok_asal:200, stok:200},
+  {id:39, nama:"Perintang Variable 10 kΩ",            kat:"lain",      stok_asal:50,  stok:50},
+  {id:40, nama:"Relay 5V SPDT",                       kat:"lain",      stok_asal:30,  stok:30},
+];
+
+const KUMPULAN = [
+  {id:"semua",     label:"Semua",        icon:"🔍", pengguna:["all"]},
+  {id:"resistor",  label:"Resistor",     icon:"⚡", pengguna:["pelajar","penyelia","pensyarah"]},
+  {id:"capacitor", label:"Capacitor",    icon:"🔋", pengguna:["pelajar","penyelia","pensyarah"]},
+  {id:"transistor",label:"Transistor",   icon:"🔺", pengguna:["pelajar","penyelia"]},
+  {id:"diode",     label:"Diode",        icon:"↗",  pengguna:["pelajar","penyelia","pensyarah"]},
+  {id:"fius",      label:"Fius",         icon:"🔐", pengguna:["pensyarah"]},
+  {id:"ic",        label:"IC / Modul",   icon:"💾", pengguna:["pelajar","penyelia"]},
+  {id:"lain",      label:"Lain-lain",    icon:"📦", pengguna:["pelajar","penyelia","pensyarah"]},
+];
+const REKOD  = {pelajar:[], penyelia:[], pensyarah:[]};
+const ROLES  = {
+  pelajar:  {label:"Pelajar Projek",  color:"var(--corp)",    bg:"var(--corp-lt)",  icon:"🎓"},
+  penyelia: {label:"Penyelia Projek", color:"#7c3aed",        bg:"#f5f3ff",         icon:"👨‍🏫"},
+  pensyarah:{label:"Pensyarah Kursus",color:"var(--gold-dk)", bg:"var(--gold-lt)",  icon:"📚"},
+};
+
+/* ════ HELPERS ════ */
+const toast   = msg=>{const t=document.getElementById("toast");t.textContent=msg;t.classList.add("show");setTimeout(()=>t.classList.remove("show"),2800);};
+const todayVal= ()=>new Date().toISOString().split("T")[0];
+const uid     = ()=>"RK-"+Date.now();
+const stokPct = k=>k.stok_asal>0?Math.round(k.stok/k.stok_asal*100):0;
+const stokCls = k=>k.stok===0?"stok-out":stokPct(k)<20?"stok-low":"stok-ok";
+const stokLbl = k=>k.stok===0?"Habis":stokPct(k)<20?`⚠ ${k.stok} baki`:`${k.stok} baki`;
+const fillClr = k=>k.stok===0?"var(--red)":stokPct(k)<20?"var(--amber)":"var(--corp)";
+const katNama = k=>({resistor:"Resistor",capacitor:"Capacitor",transistor:"Transistor",diode:"Diode",fius:"Fius",ic:"IC / Modul",lain:"Lain-lain"}[k]||k);
+const dlCSV   = (csv,fn)=>{const a=document.createElement("a");a.href=URL.createObjectURL(new Blob(["\uFEFF"+csv],{type:"text/csv;charset=utf-8;"}));a.download=fn;a.click();};
+const STLBL   = {keluar:"Diambil",pulang:"Dipulangkan",rosak:"Rosak/Luak"};
+
+/* ════ TAB ════ */
+function switchTab(id,btn){
+  document.querySelectorAll(".tab-btn").forEach(b=>b.classList.remove("active"));
+  document.querySelectorAll(".panel").forEach(p=>p.classList.remove("active"));
+  btn.classList.add("active");
+  document.getElementById("panel-"+id).classList.add("active");
+}
+
+/* ════ SIDEBAR — navigasi kategori ════ */
+let activeKat = "semua";
+
+function buildSidebar(){
+  const el=document.getElementById("sidebar-inventori"); if(!el) return;
+  const allRekod=[...REKOD.pelajar,...REKOD.penyelia,...REKOD.pensyarah];
+
+  const items = KUMPULAN.map(g=>{
+    const komps = g.id==="semua" ? KOMPONEN : KOMPONEN.filter(k=>k.kat===g.id);
+    const hasOut = komps.some(k=>k.stok===0);
+    const hasLow = !hasOut && komps.some(k=>stokPct(k)<20);
+    const badgeCls = hasOut?"out":hasLow?"low":"ok";
+    const badgeTxt = hasOut?"⚠":hasLow?"!":"✓";
+    const jumlah   = komps.length;
+    return `
+      <div class="sidebar-kat ${g.id===activeKat?"active":""}" data-kat="${g.id}" onclick="sidebarNav('${g.id}')">
+        <span class="sk-icon">${g.icon}</span>
+        <div class="sk-body">
+          <div class="sk-name">${g.label}</div>
+          <div class="sk-count">${jumlah} jenis komponen</div>
+        </div>
+        <span class="sk-badge ${badgeCls}">${badgeTxt}</span>
+      </div>`;
+  }).join("");
+
+  el.innerHTML=`
+    <div class="sidebar-head"><h3>📦 Kategori</h3></div>
+    ${items}`;
+}
+
+function sidebarNav(katId){
+  activeKat = katId;
+  buildSidebar();
+  renderKompContent(katId);
+}
+
+/* ════ RENDER CONTENT AREA ════ */
+function renderKompContent(katId){
+  const g      = KUMPULAN.find(x=>x.id===katId)||KUMPULAN[0];
+  const content= document.getElementById("komp-content"); if(!content) return;
+
+  let data = katId==="semua" ? [...KOMPONEN] : KOMPONEN.filter(k=>k.kat===katId);
+
+  const searchId  = "cari-komp-"+katId;
+  const filterStok= "fs-"+katId;
+
+  // Re-apply filter values if they already exist
+  const cariVal = document.getElementById(searchId)?.value||"";
+  const stokVal = document.getElementById(filterStok)?.value||"all";
+  if(cariVal) data=data.filter(k=>k.nama.toLowerCase().includes(cariVal.toLowerCase()));
+  if(stokVal==="ok")  data=data.filter(k=>stokPct(k)>=20);
+  if(stokVal==="low") data=data.filter(k=>k.stok>0&&stokPct(k)<20);
+  if(stokVal==="out") data=data.filter(k=>k.stok===0);
+
+  const tableRows = data.length ? data.map(k=>`
+    <tr>
+      <td style="color:var(--muted);font-size:.72rem">${k.id}</td>
+      <td style="font-weight:700;color:var(--corp-dk)">${k.nama}</td>
+      ${katId==="semua"?`<td style="font-size:.75rem">${katNama(k.kat)}</td>`:""}
+      <td style="text-align:center">${k.stok_asal}</td>
+      <td>
+        <div style="display:flex;align-items:center;gap:6px">
+          <div class="stok-bar"><div class="stok-fill" style="width:${stokPct(k)}%;background:${fillClr(k)}"></div></div>
+          <span class="${stokCls(k)}">${stokLbl(k)}</span>
+        </div>
+      </td>
+      <td style="text-align:center;color:var(--muted)">${k.stok_asal-k.stok}</td>
+      <td>${k.stok===0?'<span class="sbg rosak">Habis</span>':stokPct(k)<20?'<span class="sbg keluar">Hampir Habis</span>':'<span class="sbg pulang">Mencukupi</span>'}</td>
+      <td><button class="btn btn-p btn-sm" onclick="tambahStok(${k.id})">+ Tambah</button></td>
+    </tr>`).join("")
+  : `<tr><td colspan="8" style="text-align:center;padding:24px;color:var(--muted)">📭 Tiada komponen.</td></tr>`;
+
+  content.innerHTML=`
+    <div class="card">
+      <div class="chead">
+        <div class="cicon" style="background:var(--corp-lt);font-size:1.1rem">${g.icon}</div>
+        <div class="ctitle">${katId==="semua"?"Semua Komponen":"Komponen — "+g.label}</div>
+        <div class="ml-auto">
+          <button class="caction" onclick="exportInventori('${katId}')">⬇ Eksport CSV</button>
+        </div>
+      </div>
+      <div class="search-wrap">
+        <input type="text" id="${searchId}" placeholder="🔍 Cari nama komponen..." value="${cariVal}"
+               oninput="renderKompContent('${katId}')"/>
+        <select id="${filterStok}" onchange="renderKompContent('${katId}')">
+          <option value="all" ${stokVal==="all"?"selected":""}>Semua Status Stok</option>
+          <option value="ok"  ${stokVal==="ok" ?"selected":""}>Mencukupi</option>
+          <option value="low" ${stokVal==="low"?"selected":""}>Hampir Habis</option>
+          <option value="out" ${stokVal==="out"?"selected":""}>Habis</option>
+        </select>
+      </div>
+      <div class="twrap">
+        <table>
+          <thead><tr>
+            <th>#</th><th>Nama Komponen</th>
+            ${katId==="semua"?"<th>Kategori</th>":""}
+            <th>Stok Asal</th><th>Stok Semasa</th><th>Diambil</th><th>Status</th><th>Tindakan</th>
+          </tr></thead>
+          <tbody>${tableRows}</tbody>
+        </table>
+      </div>
+    </div>`;
+}
+
+function tambahStok(kid){
+  const k=KOMPONEN.find(x=>x.id===kid); if(!k) return;
+  const amt=parseInt(prompt(`Tambah kuantiti untuk:\n"${k.nama}"\n(Stok semasa: ${k.stok} unit)`)||"0");
+  if(!amt||amt<1){toast("⚠️ Kuantiti tidak sah.");return;}
+  k.stok+=amt;
+  k.stok_asal=Math.max(k.stok_asal,k.stok);
+  renderKompContent(activeKat);
+  renderStatsInventori();
+  buildSidebar();
+  toast(`✅ Stok "${k.nama}" ditambah ${amt} → ${k.stok} unit baki.`);
+}
+
+/* ════ STATS INVENTORI ════ */
+function renderStatsInventori(){
+  const out=KOMPONEN.filter(k=>k.stok===0).length;
+  const low=KOMPONEN.filter(k=>k.stok>0&&stokPct(k)<20).length;
+  const ok =KOMPONEN.filter(k=>stokPct(k)>=20).length;
+  const allR=[...REKOD.pelajar,...REKOD.penyelia,...REKOD.pensyarah].length;
+  document.getElementById("stats-inventori").innerHTML=`
+    <div class="scard"><div class="sl">Jenis Komponen</div><div class="sv">${KOMPONEN.length}</div><div class="ss">dalam inventori</div></div>
+    <div class="scard" style="border-left-color:var(--green)"><div class="sl">Stok Mencukupi</div><div class="sv" style="color:var(--green)">${ok}</div><div class="ss">item ≥ 20% baki</div></div>
+    <div class="scard" style="border-left-color:var(--amber)"><div class="sl">Hampir Habis</div><div class="sv" style="color:var(--amber)">${low}</div><div class="ss">item &lt; 20% baki</div></div>
+    <div class="scard" style="border-left-color:var(--red)"><div class="sl">Stok Habis</div><div class="sv" style="color:var(--red)">${out}</div><div class="ss">perlu ditambah</div></div>
+    <div class="scard" style="border-left-color:var(--gold-dk)"><div class="sl">Jumlah Pengambilan</div><div class="sv" style="color:var(--gold-dk)">${allR}</div><div class="ss">semua rekod</div></div>`;
+  document.getElementById("badge-inventori").textContent=KOMPONEN.length+" item";
+}
+
+/* ════ BUILD PANELS REKOD ════ */
+function buildPanelsRekod(){
+  document.getElementById("panels-rekod").innerHTML=Object.keys(ROLES).map(role=>{
+    const r=ROLES[role];
+    return `
+    <section class="panel" id="panel-${role}">
+      <div class="stats-row" id="stats-${role}"></div>
+      <div class="slabel">📋 Borang Pengambilan — ${r.label}</div>
+      <div class="card">
+        <div class="chead">
+          <div class="cicon" style="background:${r.bg}">${r.icon}</div>
+          <div class="ctitle">Borang Pengambilan Komponen — ${r.label}</div>
+        </div>
+        <div id="form-${role}"></div>
+      </div>
+      <div class="slabel">📁 Rekod Pengambilan — ${r.label}</div>
+      <div class="card">
+        <div class="chead">
+          <div class="cicon" style="background:${r.bg}">📁</div>
+          <div class="ctitle">Senarai Rekod Pengambilan</div>
+          <div class="ml-auto">
+            <button class="caction" onclick="exportRekod('${role}')">⬇ Eksport CSV</button>
+          </div>
+        </div>
+        <div class="search-wrap">
+          <input type="text" id="cari-${role}" placeholder="🔍 Cari nama / komponen..." oninput="renderRekodTable('${role}')"/>
+          <select id="filter-status-${role}" onchange="renderRekodTable('${role}')">
+            <option value="all">Semua Status</option>
+            <option value="keluar">Diambil</option>
+            <option value="pulang">Dipulangkan</option>
+            <option value="rosak">Rosak/Luak</option>
+          </select>
+        </div>
+        <div class="twrap" id="tbl-${role}"></div>
+      </div>
+    </section>`;
+  }).join("");
+}
+
+/* ════ FORMS ════ */
+function renderForms(){
+  buildForm("pelajar",[
+    {key:"tarikh",   label:"Tarikh",                type:"date",     val:todayVal()},
+    {key:"masa",     label:"Masa",                  type:"time"},
+    {key:"nama",     label:"Nama Pelajar",           type:"text",     ph:"Nama penuh pelajar"},
+    {key:"no_pend",  label:"No. Pendaftaran",        type:"text",     ph:"02DEE26F1001"},
+    {key:"kelas",    label:"Kelas",                  type:"text",     ph:"DEE1A"},
+    {key:"tajuk",    label:"Tajuk Projek",           type:"text",     ph:"Tajuk projek akhir...",    span:true},
+    {key:"penyelia", label:"Nama Penyelia",          type:"text",     ph:"Nama penyelia projek"},
+    {key:"komponen", label:"Komponen Dipohon",       type:"sel-komp"},
+    {key:"kuantiti", label:"Kuantiti",               type:"number",   ph:"1",  min:1},
+    {key:"tujuan",   label:"Tujuan Penggunaan",      type:"textarea", ph:"Huraikan tujuan...",       span:true},
+    {key:"status",   label:"Status",                 type:"select",   opts:[{v:"keluar",t:"Diambil"},{v:"pulang",t:"Dipulangkan"},{v:"rosak",t:"Rosak/Luak"}]},
+  ]);
+  buildForm("penyelia",[
+    {key:"tarikh",          label:"Tarikh",                type:"date",    val:todayVal()},
+    {key:"masa",            label:"Masa",                  type:"time"},
+    {key:"nama",            label:"Nama Penyelia",         type:"text",    ph:"Nama penuh penyelia"},
+    {key:"jawatan",         label:"Jawatan",               type:"text",    ph:"Pensyarah / Jurutera"},
+    {key:"projek",          label:"Nama Projek",           type:"text",    ph:"Tajuk projek",         span:true},
+    {key:"pelajar_terlibat",label:"Pelajar Terlibat",      type:"text",    ph:"Nama / kelas pelajar", span:true},
+    {key:"komponen",        label:"Komponen Dipohon",      type:"sel-komp"},
+    {key:"kuantiti",        label:"Kuantiti",              type:"number",  ph:"1", min:1},
+    {key:"tujuan",          label:"Tujuan Penggunaan",     type:"textarea",ph:"Tujuan penggunaan...", span:true},
+    {key:"status",          label:"Status",                type:"select",  opts:[{v:"keluar",t:"Diambil"},{v:"pulang",t:"Dipulangkan"},{v:"rosak",t:"Rosak/Luak"}]},
+  ]);
+  buildForm("pensyarah",[
+    {key:"tarikh",     label:"Tarikh",               type:"date",    val:todayVal()},
+    {key:"masa",       label:"Masa",                 type:"time"},
+    {key:"nama",       label:"Nama Pensyarah",       type:"text",    ph:"Nama penuh pensyarah"},
+    {key:"kod_kursus", label:"Kod Kursus",           type:"text",    ph:"DEE30102"},
+    {key:"nama_kursus",label:"Nama Kursus",          type:"text",    ph:"Litar Elektrik...",    span:true},
+    {key:"kelas",      label:"Kelas / Kumpulan",     type:"text",    ph:"DEE1A, DEE1B"},
+    {key:"sem",        label:"Semester",             type:"select",  opts:[{v:"Sem 1",t:"Semester 1"},{v:"Sem 2",t:"Semester 2"}]},
+    {key:"komponen",   label:"Komponen Dipohon",     type:"sel-komp"},
+    {key:"kuantiti",   label:"Kuantiti",             type:"number",  ph:"1", min:1},
+    {key:"tujuan",     label:"Tujuan / Amali",       type:"textarea",ph:"Contoh: Amali litar siri-selari...", span:true},
+    {key:"status",     label:"Status",               type:"select",  opts:[{v:"keluar",t:"Diambil"},{v:"pulang",t:"Dipulangkan"},{v:"rosak",t:"Rosak/Luak"}]},
+  ]);
+}
+
+function kompOpts(){
+  return KUMPULAN.filter(k=>k.id!=="semua").map(g=>{
+    const items=KOMPONEN.filter(k=>k.kat===g.id);
+    if(!items.length) return "";
+    return `<optgroup label="── ${g.label} ──">${items.map(k=>`<option value="${k.id}">${k.nama} (Stok: ${k.stok})</option>`).join("")}</optgroup>`;
+  }).join("");
+}
+
+function buildForm(role,fields){
+  const html=fields.map(f=>{
+    if(f.type==="sel-komp") return `<div class="fg"><label>Komponen Dipohon</label><select id="ff-${role}-komponen">${kompOpts()}</select></div>`;
+    if(f.type==="select") return `<div class="fg${f.span?" s2":""}"><label>${f.label}</label><select id="ff-${role}-${f.key}">${f.opts.map(o=>`<option value="${o.v}">${o.t}</option>`).join("")}</select></div>`;
+    if(f.type==="textarea") return `<div class="fg${f.span?" s2":""}"><label>${f.label}</label><textarea id="ff-${role}-${f.key}" placeholder="${f.ph||""}"></textarea></div>`;
+    return `<div class="fg${f.span?" s2":""}"><label>${f.label}</label><input type="${f.type||"text"}" id="ff-${role}-${f.key}" placeholder="${f.ph||""}" value="${f.val||""}" ${f.min!==undefined?`min="${f.min}"`:""}></div>`;
+  }).join("");
+  document.getElementById("form-"+role).innerHTML=`
+    <div class="fgrid">${html}</div>
+    <div class="factions">
+      <button class="btn btn-g" onclick="clearForm('${role}')">Kosongkan</button>
+      <button class="btn btn-p" onclick="submitForm('${role}')">✚ Simpan Rekod</button>
+    </div>`;
+}
+
+/* ════ SUBMIT ════ */
+function submitForm(role){
+  const g=k=>(document.getElementById(`ff-${role}-${k}`)||{value:""}).value||"";
+  const nama=g("nama").trim();
+  if(!nama){toast("⚠️ Sila masukkan nama.");return;}
+  const kid=parseInt(g("komponen")), qty=parseInt(g("kuantiti"))||1;
+  const k=KOMPONEN.find(x=>x.id===kid);
+  if(!k){toast("⚠️ Pilih komponen.");return;}
+  const status=g("status");
+  if(status==="keluar"){
+    if(k.stok<qty){toast(`⚠️ Stok "${k.nama}" tidak mencukupi! Baki: ${k.stok}`);return;}
+    k.stok-=qty;
+  } else if(status==="pulang"){
+    k.stok=Math.min(k.stok+qty,k.stok_asal);
+  }
+  REKOD[role].push({
+    id:uid(),tarikh:g("tarikh"),masa:g("masa"),nama,
+    komponen_id:kid,komponen_nama:k.nama,kuantiti:qty,status,
+    tujuan:g("tujuan"),
+    no_pend:g("no_pend"),kelas:g("kelas"),tajuk:g("tajuk"),penyelia_nama:g("penyelia"),
+    jawatan:g("jawatan"),projek:g("projek"),pelajar_terlibat:g("pelajar_terlibat"),
+    kod_kursus:g("kod_kursus"),nama_kursus:g("nama_kursus"),sem:g("sem"),
+  });
+  renderRekodTable(role);
+  renderStatsRekod(role);
+  renderStatsInventori();
+  renderKompContent(activeKat);
+  buildSidebar();
+  clearForm(role);
+  toast(`✅ Rekod disimpan! Stok "${k.nama}": ${k.stok} baki.`);
+}
+
+function clearForm(role){
+  ["nama","no_pend","kelas","tajuk","penyelia","jawatan","projek","pelajar_terlibat","kod_kursus","nama_kursus","tujuan","masa"].forEach(k=>{
+    const el=document.getElementById(`ff-${role}-${k}`);if(el)el.value="";
+  });
+  const td=document.getElementById(`ff-${role}-tarikh`);if(td)td.value=todayVal();
+  const nq=document.getElementById(`ff-${role}-kuantiti`);if(nq)nq.value=1;
+}
+
+/* ════ REKOD TABLE ════ */
+function renderStatsRekod(role){
+  const recs=REKOD[role], r=ROLES[role];
+  document.getElementById("stats-"+role).innerHTML=`
+    <div class="scard" style="border-left-color:${r.color}"><div class="sl">Jumlah Rekod</div><div class="sv" style="color:${r.color}">${recs.length}</div><div class="ss">pengambilan</div></div>
+    <div class="scard" style="border-left-color:#1d4ed8"><div class="sl">Sedang Dipinjam</div><div class="sv" style="color:#1d4ed8">${recs.filter(x=>x.status==="keluar").length}</div><div class="ss">belum dipulangkan</div></div>
+    <div class="scard" style="border-left-color:var(--green)"><div class="sl">Dipulangkan</div><div class="sv" style="color:var(--green)">${recs.filter(x=>x.status==="pulang").length}</div><div class="ss">selesai</div></div>
+    <div class="scard" style="border-left-color:var(--red)"><div class="sl">Rosak / Luak</div><div class="sv" style="color:var(--red)">${recs.filter(x=>x.status==="rosak").length}</div><div class="ss">unit</div></div>`;
+  document.getElementById("badge-"+role).textContent=recs.length+" rekod";
+}
+
+function renderRekodTable(role){
+  const cari=(document.getElementById("cari-"+role)?.value||"").toLowerCase();
+  const stF =document.getElementById("filter-status-"+role)?.value||"all";
+  let recs=[...REKOD[role]];
+  if(cari) recs=recs.filter(r=>r.nama.toLowerCase().includes(cari)||r.komponen_nama.toLowerCase().includes(cari));
+  if(stF!=="all") recs=recs.filter(r=>r.status===stF);
+  const el=document.getElementById("tbl-"+role);
+  if(!recs.length){el.innerHTML=`<div class="empty"><div class="ei">📭</div>Tiada rekod lagi.</div>`;return;}
+  el.innerHTML=`
+    <table>
+      <thead><tr><th>Tarikh</th><th>Masa</th><th>Nama</th><th>Komponen</th><th>Kuantiti</th><th>Tujuan</th><th>Status</th><th></th></tr></thead>
+      <tbody>${recs.map(r=>`
+        <tr>
+          <td style="white-space:nowrap">${r.tarikh}</td>
+          <td>${r.masa||"—"}</td>
+          <td style="font-weight:700;color:var(--corp-dk)">${r.nama}</td>
+          <td>${r.komponen_nama}</td>
+          <td style="text-align:center;font-weight:700">${r.kuantiti}</td>
+          <td style="font-size:.75rem;max-width:180px;color:var(--muted)">${r.tujuan||"—"}</td>
+          <td><span class="sbg ${r.status}">${STLBL[r.status]}</span></td>
+          <td style="white-space:nowrap">
+            <button class="btn btn-p btn-sm" onclick="openBorang('${role}','${r.id}')">📄</button>
+            ${r.status==="keluar"?`<button class="btn btn-g btn-sm" style="margin-left:3px" onclick="pulangkan('${role}','${r.id}')">↩</button>`:""}
+          </td>
+        </tr>`).join("")}
+      </tbody>
+    </table>`;
+}
+
+/* ════ PULANGKAN ════ */
+function pulangkan(role,rid){
+  const r=REKOD[role].find(x=>x.id===rid);if(!r||r.status!=="keluar")return;
+  const k=KOMPONEN.find(x=>x.id===r.komponen_id);
+  r.status="pulang";
+  if(k)k.stok=Math.min(k.stok+r.kuantiti,k.stok_asal);
+  renderRekodTable(role);renderStatsRekod(role);
+  renderStatsInventori();renderKompContent(activeKat);
+  buildSidebar();
+  toast(`↩ "${r.komponen_nama}" (${r.kuantiti} unit) dipulangkan.`);
+}
+
+/* ════ BORANG MODAL ════ */
+function openBorang(role,rid){
+  const r=REKOD[role].find(x=>x.id===rid);if(!r)return;
+  const rl=ROLES[role];
+  const noRef=`JKE-BL-${role.toUpperCase().slice(0,3)}-${r.id.slice(-6)}`;
+  let extra="";
+  if(role==="pelajar")   extra=`<div class="bfield"><span class="blbl">No. Pendaftaran</span><span class="bval">${r.no_pend||"—"}</span></div><div class="bfield"><span class="blbl">Kelas</span><span class="bval">${r.kelas||"—"}</span></div><div class="bfield"><span class="blbl">Tajuk Projek</span><span class="bval">${r.tajuk||"—"}</span></div><div class="bfield"><span class="blbl">Penyelia</span><span class="bval">${r.penyelia_nama||"—"}</span></div>`;
+  if(role==="penyelia")  extra=`<div class="bfield"><span class="blbl">Jawatan</span><span class="bval">${r.jawatan||"—"}</span></div><div class="bfield"><span class="blbl">Nama Projek</span><span class="bval">${r.projek||"—"}</span></div><div class="bfield"><span class="blbl">Pelajar Terlibat</span><span class="bval">${r.pelajar_terlibat||"—"}</span></div>`;
+  if(role==="pensyarah") extra=`<div class="bfield"><span class="blbl">Kod Kursus</span><span class="bval">${r.kod_kursus||"—"}</span></div><div class="bfield"><span class="blbl">Nama Kursus</span><span class="bval">${r.nama_kursus||"—"}</span></div><div class="bfield"><span class="blbl">Semester</span><span class="bval">${r.sem||"—"}</span></div>`;
+  document.getElementById("m-icon").textContent=rl.icon;
+  document.getElementById("m-title").textContent=`Borang Pengambilan — ${r.nama}`;
+  document.getElementById("m-body").innerHTML=`
+    <div style="text-align:center;margin-bottom:14px;padding-bottom:12px;border-bottom:2px solid var(--border)">
+      <div style="font-size:.7rem;font-weight:700;text-transform:uppercase;color:var(--muted)">Politeknik Sultan Haji Ahmad Shah (POLISAS)</div>
+      <div style="font-size:1rem;font-weight:800;color:var(--corp-dk);margin-top:3px">BORANG PENGAMBILAN KOMPONEN ELEKTRONIK</div>
+      <div style="font-size:.78rem;color:var(--muted);margin-top:2px">Jabatan Kejuruteraan Elektrik · Bilik Persediaan</div>
+      <div style="font-size:.72rem;margin-top:3px">No. Rujukan: <strong style="color:var(--corp)">${noRef}</strong> &nbsp;|&nbsp; Kategori: <strong>${rl.label}</strong></div>
+    </div>
+    <div class="bsec"><div class="bsec-title">A — Maklumat Pemohon</div>
+      <div class="bfield"><span class="blbl">Nama</span><span class="bval">${r.nama}</span></div>${extra}
+    </div>
+    <div class="bsec"><div class="bsec-title">B — Maklumat Komponen</div>
+      <div class="bfield"><span class="blbl">Nama Komponen</span><span class="bval">${r.komponen_nama}</span></div>
+      <div class="bfield"><span class="blbl">Kuantiti</span><span class="bval">${r.kuantiti} unit</span></div>
+      <div class="bfield"><span class="blbl">Tarikh &amp; Masa</span><span class="bval">${r.tarikh}${r.masa?" · "+r.masa:""}</span></div>
+      <div class="bfield"><span class="blbl">Status</span><span class="bval">${STLBL[r.status]}</span></div>
+      <div class="bfield"><span class="blbl">Tujuan Penggunaan</span><span class="bval">${r.tujuan||"—"}</span></div>
+    </div>
+    <div class="bsec"><div class="bsec-title">C — Pengesahan &amp; Tandatangan</div>
+      <div class="sig-row">
+        <div class="sig-box"><div class="st">Pemohon</div><div class="ss2"></div><div class="si">Nama: ${r.nama}</div><div class="si">Tarikh: ${r.tarikh}</div></div>
+        <div class="sig-box"><div class="st">Pegawai Stor / Lab</div><div class="ss2"></div><div class="si">Nama: ____________________</div><div class="si">Tarikh: ____________________</div></div>
+        <div class="sig-box"><div class="st">Disemak oleh PA / KJ</div><div class="ss2"></div><div class="si">Nama: ____________________</div><div class="si">Tarikh: ____________________</div></div>
+      </div>
+    </div>
+    <div class="bsec" style="background:var(--gray-lt)"><div class="bsec-title">D — Rekod Pemulangan</div>
+      <div class="bfield"><span class="blbl">Tarikh Dipulangkan</span><span class="bval">&nbsp;</span></div>
+      <div class="bfield"><span class="blbl">Kuantiti Dipulangkan</span><span class="bval">&nbsp;</span></div>
+      <div class="bfield"><span class="blbl">Keadaan Komponen</span><span class="bval">☐ Baik &nbsp;&nbsp; ☐ Rosak &nbsp;&nbsp; ☐ Hilang</span></div>
+      <div class="bfield"><span class="blbl">Catatan</span><span class="bval">&nbsp;</span></div>
+    </div>`;
+  document.getElementById("overlay").classList.add("open");
+}
+function closeModal(){document.getElementById("overlay").classList.remove("open");}
+
+/* ════ EXPORT ════ */
+function exportInventori(katId){
+  const data=katId==="semua"?KOMPONEN:KOMPONEN.filter(k=>k.kat===katId);
+  const hdr=["#","Nama Komponen","Kategori","Stok Asal","Stok Semasa","Diambil","Status"];
+  const rows=data.map(k=>[k.id,`"${k.nama}"`,katNama(k.kat),k.stok_asal,k.stok,k.stok_asal-k.stok,k.stok===0?"Habis":stokPct(k)<20?"Hampir Habis":"OK"].join(","));
+  dlCSV([hdr.join(","),...rows].join("\n"),`Inventori-${katId}-JKE.csv`);
+  toast("📥 Inventori berjaya dimuat turun!");
+}
+
+function exportRekod(role){
+  if(!REKOD[role].length){toast("⚠️ Tiada rekod.");return;}
+  const hdr=["Tarikh","Masa","Nama","Komponen","Kuantiti","Tujuan","Status"];
+  const rows=REKOD[role].map(r=>[r.tarikh,r.masa,`"${r.nama}"`,`"${r.komponen_nama}"`,r.kuantiti,`"${r.tujuan}"`,STLBL[r.status]].join(","));
+  dlCSV([`Rekod Pengambilan — ${ROLES[role].label} — JKE POLISAS`,"",hdr.join(","),...rows].join("\n"),`Rekod-${role}-JKE.csv`);
+  toast("📥 Rekod berjaya dimuat turun!");
+}
+
+/* ════ BOOT ════ */
+document.addEventListener("DOMContentLoaded",()=>{
+  document.getElementById("live-date").textContent=
+    new Date().toLocaleDateString("ms-MY",{weekday:"long",year:"numeric",month:"long",day:"numeric"});
+  buildPanelsRekod();
+  renderForms();
+  renderStatsInventori();
+  buildSidebar();
+  renderKompContent(activeKat);
+  Object.keys(ROLES).forEach(role=>{renderStatsRekod(role);renderRekodTable(role);});
+});
+</script>
+</body>
+</html>
